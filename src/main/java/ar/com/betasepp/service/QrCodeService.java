@@ -78,5 +78,18 @@ public class QrCodeService {
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
 		outputStream.flush();
 	}
+	
+	public void pdf417(final String data,
+			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
+		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment;filename=data-qr.png");
+
+		final var outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
+		QRCodeWriter writer = new QRCodeWriter();
+		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data),
+				BarcodeFormat.PDF_417, 350, 350);
+		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+		outputStream.flush();
+	}
 
 }
