@@ -40,12 +40,20 @@ public class QrCodeController {
 		qrCodeService.generateData(qrCodeGenerationRequestDto, httpServletResponse);
 	}
 
-	@GetMapping(value = "/generate")
+	@GetMapping(value = "/qrCode")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "Returns a .png QR code with provided information decoded inside")
 	public void qrCodeGeneration(final HttpServletResponse httpServletResponse, String data)
 			throws IOException, WriterException {
-		qrCodeService.generate(data, httpServletResponse);
+		qrCodeService.qrCode(data, httpServletResponse);
+	}
+	
+	@GetMapping(value = "/dataMatrix")
+	@ResponseStatus(value = HttpStatus.OK)
+	@Operation(summary = "Returns a .png QR code with provided information decoded inside")
+	public void dataMatrixGeneration(final HttpServletResponse httpServletResponse, String data)
+			throws IOException, WriterException {
+		qrCodeService.dataMatrix(data, httpServletResponse);
 	}
 
 	@PutMapping(value = "/read", consumes = "multipart/form-data")
