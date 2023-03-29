@@ -40,7 +40,7 @@ public class QrCodeService {
 		return ResponseEntity.ok(new ObjectMapper().readValue(result.getText(), QrCodeGenerationRequestDto.class));
 	}
 
-	public void generate(final QrCodeGenerationRequestDto qrCodeGenerationRequestDto,
+	public void generateData(final QrCodeGenerationRequestDto qrCodeGenerationRequestDto,
 			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
 		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment;filename=data-qr.png");
@@ -53,7 +53,7 @@ public class QrCodeService {
 		outputStream.flush();
 	}
 	
-	public void generateData(final String data,
+	public void generate(final String data,
 			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
 		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment;filename=data-qr.png");

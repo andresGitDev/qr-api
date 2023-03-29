@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,22 +31,21 @@ public class QrCodeController {
 
 	private final QrCodeService qrCodeService;
 
-	@PostMapping(value = "/generate")
+	@PostMapping(value = "/generateData")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "Returns a .png QR code with provided information decoded inside")
 	public void qrCodeGenerationHandler(
 			@Valid @RequestBody(required = true) final QrCodeGenerationRequestDto qrCodeGenerationRequestDto,
-			final HttpServletResponse httpServletResponse)
-			throws IOException, WriterException {
-		qrCodeService.generate(qrCodeGenerationRequestDto, httpServletResponse);
+			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
+		qrCodeService.generateData(qrCodeGenerationRequestDto, httpServletResponse);
 	}
 
-	@PostMapping(value = "/generateData")
+	@GetMapping(value = "/generate")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Operation(summary = "Returns a .png QR code with provided information decoded inside")
-	public void qrCodeGenerationData(final HttpServletResponse httpServletResponse,
-			String data) throws IOException, WriterException {
-		qrCodeService.generateData(data, httpServletResponse);
+	public void qrCodeGeneration(final HttpServletResponse httpServletResponse, String data)
+			throws IOException, WriterException {
+		qrCodeService.generate(data, httpServletResponse);
 	}
 
 	@PutMapping(value = "/read", consumes = "multipart/form-data")
