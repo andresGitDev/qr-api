@@ -24,6 +24,8 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.datamatrix.DataMatrixWriter;
+import com.google.zxing.pdf417.PDF417Writer;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import ar.com.betasepp.dto.QrCodeGenerationRequestDto;
@@ -42,8 +44,7 @@ public class QrCodeService {
 
 	public void generateData(final QrCodeGenerationRequestDto qrCodeGenerationRequestDto,
 			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
-		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment;filename=data-qr.png");
+		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=data-qr.png");
 
 		final var outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
 		QRCodeWriter writer = new QRCodeWriter();
@@ -52,42 +53,39 @@ public class QrCodeService {
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
 		outputStream.flush();
 	}
-	
-	public void qrCode(final String data,
-			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
-		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment;filename=data-qr.png");
+
+	public void qrCode(final String data, final HttpServletResponse httpServletResponse)
+			throws IOException, WriterException {
+		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=data-qrCode.png");
 
 		final var outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
 		QRCodeWriter writer = new QRCodeWriter();
-		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data),
-				BarcodeFormat.QR_CODE, 350, 350);
+		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data), BarcodeFormat.QR_CODE, 350,
+				350);
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
 		outputStream.flush();
 	}
-	
-	public void dataMatrix(final String data,
-			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
-		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment;filename=data-qr.png");
+
+	public void dataMatrix(final String data, final HttpServletResponse httpServletResponse)
+			throws IOException, WriterException {
+		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=data-dataMatrix.png");
 
 		final var outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
-		QRCodeWriter writer = new QRCodeWriter();
-		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data),
-				BarcodeFormat.DATA_MATRIX, 350, 350);
+		DataMatrixWriter writer = new DataMatrixWriter();
+		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data), BarcodeFormat.DATA_MATRIX, 350,
+				350);
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
 		outputStream.flush();
 	}
-	
-	public void pdf417(final String data,
-			final HttpServletResponse httpServletResponse) throws IOException, WriterException {
-		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment;filename=data-qr.png");
+
+	public void pdf417(final String data, final HttpServletResponse httpServletResponse)
+			throws IOException, WriterException {
+		httpServletResponse.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=data-pdf417.png");
 
 		final var outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
-		QRCodeWriter writer = new QRCodeWriter();
-		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data),
-				BarcodeFormat.PDF_417, 350, 350);
+		PDF417Writer writer = new PDF417Writer();
+		BitMatrix bitMatrix = writer.encode(new ObjectMapper().writeValueAsString(data), BarcodeFormat.PDF_417, 350,
+				350);
 		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
 		outputStream.flush();
 	}
